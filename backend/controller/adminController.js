@@ -1,5 +1,5 @@
 let db=require('../databaseConfig')
-// admin login
+// admin login uuuuuu
 exports.adminLogin=(req,res)=>{
     let email=req.body.email
     let password=req.body.password
