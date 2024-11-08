@@ -4,8 +4,9 @@ import axios from 'axios'
 import UserContext from '../context/UserContext'
 import { Link, useNavigate } from 'react-router-dom'
 
-export default function ClientLogin() {
-  let {setlogin}= useContext(UserContext)
+export default function ClientLogin() { 
+  // let {setlogin}= useContext(UserContext)
+  let {userLogin} = useContext(UserContext)
   let navigation = useNavigate()
   let [data, setData] = useState({
     email: "",
@@ -20,9 +21,16 @@ export default function ClientLogin() {
   async function handleLogin(e){
     e.preventDefault()
 
-    let result=await axios.post('http://localhost:3000/api/clientLogin', data)
-    console.log(result.data.token)
-    localStorage.setItem('token',result.data.token)
+    let flag=await userLogin(data)
+
+    if (flag){
+      // let unique=data.email.split('@')[0]
+
+      // setlogin(unique)
+      navigation('/')
+    }else{
+      alert("You enter the wrong details")
+    }
 
 
     let unique=data.email.split('@')[0]
@@ -30,7 +38,7 @@ export default function ClientLogin() {
 
     
    if(result.data.isMatch){
-    setlogin(unique)
+    // setlogin(unique)
     navigation('/')
 
     createClientTable(unique)

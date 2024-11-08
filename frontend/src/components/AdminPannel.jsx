@@ -83,6 +83,7 @@ export default function AdminPannel() {
                                 alt=""
                               />
                             </div> */}
+                            
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">{product.ProductBrand}</div>
                               {/* <div className="text-sm text-gray-700"></div> */}

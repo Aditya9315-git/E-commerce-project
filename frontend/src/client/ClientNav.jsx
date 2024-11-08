@@ -30,23 +30,28 @@ export default function ClientNav() {
   }
 
   let {count}=useContext(UserContext)
-  let {login}=useContext(UserContext)
+  let {auth,userlogout}=useContext(UserContext)
 
   let[data, setData]=useState([])
 
   useEffect(()=>{
     getClient()
-  },[login])
+  },[auth])
 
   async function getClient(){
-    let result= await axios.get(`http://localhost:3000/api/getClient/${login}`)
+    if(auth.userId){ 
+    let result= await axios.get(`http://localhost:3000/api/getClient/${auth.userId}`)
     setData(result.data)
-
+  }
   }
 
+  function logout(){
+    userlogout()
+    window.location.reload()
+  }
 
   return (
-    <div className="fixed z-50 w-full bg-black text-white">
+    <div className="fixed z-50 p-4 w-full bg-black text-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <span>
@@ -63,7 +68,7 @@ export default function ClientNav() {
               />
             </svg>
           </span>
-          <span className="font-bold">DevUI</span>
+          <span className="font-bold text-xl ">Check and Buy</span>
         </div>
         <div className="hidden lg:block" >
           <ul className="inline-flex space-x-8">
@@ -71,7 +76,7 @@ export default function ClientNav() {
               <li key={item.name}>
                 <a
                   href={item.href}
-                  className="text-sm font-semibold text-white hover:text-gray-900"
+                  className="text-sm font-semibold text-white hover:text-blue-300"
                 >
                   {item.name}
                 </a>
@@ -81,6 +86,7 @@ export default function ClientNav() {
         </div>
 
         <div className='flex items-center'>
+          {auth.userId && <button className='p-1.5 m-2 rounded bg-gray-200 text-black hover:bg-slate-100' onClick={logout}>LogOut</button>}
         <div className="hidden lg:block">
           <Link
             type="button"

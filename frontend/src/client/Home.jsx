@@ -10,7 +10,7 @@ export default function Home(){
     let [data, setData] = useState([])
     let Navigation=useNavigate()
     let [inp,setInp]=useState('')
-    let{login}=useContext(UserContext)
+    let{auth}=useContext(UserContext)
 
     console.log(inp)
 
@@ -57,8 +57,8 @@ export default function Home(){
     async function saveCart(data){
       // console.log(data)
 
-      if (login){
-      let result=await axios.post(`http://localhost:3000/api/cartSave/${login}`,{
+      if (auth.userId){
+      let result=await axios.post(`http://localhost:3000/api/cartSave/${auth.userId}`,{
         ProductBrand: data.ProductBrand,
         ProductPrice: data.ProductPrice,
         ProductType: data.ProductType,
@@ -80,7 +80,7 @@ export default function Home(){
 
     useEffect(() => {
         fetchCartData()
-    }, [])
+    }, [auth])
   
     async function fetchCartData() {
       let result = await axios.get(`http://localhost:3000/api/getCart/${login}`)
@@ -119,7 +119,7 @@ export default function Home(){
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
         </div>
-        <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Product by type..." required  onChange={(e)=>setInp(e.target.value)} />
+        <input type="search" id="default-search" class="block w-full p-4 mt-8 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Product by type..." required  onChange={(e)=>setInp(e.target.value)} />
     </div>
     
     <button className='relative top-[10px] p-2 bg-white rounded-[10px] text-10px top- font-bold hover:bg-gray-400 hover:text-white'
@@ -185,23 +185,23 @@ export default function Home(){
     {/* // Card section start/// */}
     
    
-    <div className='relative top-[60px] flex-wrap left-[250px] w-[1000px] h-screen flex justify-center items-center justify-evenly gap-[20px]'>
+    <div className='relative top-24 flex-wrap left-[280px] w-[1200px] overflow-hidden h-[100%] flex items-center justify-evenly gap-[20px]'>
      {data.map((data)=>(
-          <div className="w-[300px] rounded-md border flex flex-col justify-evenly items-center">
+          <div className="w-[250px] rounded-md border flex flex-wrap  justify-evenly items-center">
           <img
             src={`http://localhost:3000/${data.image}`}
             className="h-[200px] w-full rounded-md object-cover"
           />
           <div className="p-4">
             <h1 className="text-lg font-semibold">Product Brand:- <span className='text-bold text-2xl'>{data.ProductBrand}</span></h1>
-            <h1 className="text-lg font-semibold">Product Type:- <span className='text-bold text-2xl'>{data.ProductType}</span></h1>
-            <h1 className="text-lg font-semibold">Product Price:- <span className='text-bold text-2xl'>{data.ProductPrice}</span></h1>
-            <h1 className="text-lg font-semibold">Product Rating:- <span className='text-bold text-2xl'>{data.ProductRating}</span></h1>
+            <h1 className="text-lg font-semibold">Product Type:- <span className='text-bold   text-2xl'>{data.ProductType}</span></h1>
+            <h1 className="text-lg font-semibold">Product Price:- <span className='text-mono text-2xl'>{data.ProductPrice}</span></h1>
+            <h1 className="text-lg font-semibold">Product Rating:- <span className='font-mono text-2xl'>{data.ProductRating}</span></h1>
            
             <button
               type="button"
               onClick={()=>saveCart(data)}
-              className="mt-5 rounded-sm bg-black px-2.5 py-2.5 m-auto text-[12px] font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black "
+              className="mt-2 rounded-lg bg-black p-[10px] m-auto text-[14px] w-[100%] font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black "
             >
               Add To Cart
             </button>
